@@ -2,7 +2,7 @@
 name        = "fftpack"
 description = "FFTPACK is a package of Fortran subprograms for the fast Fourier transform of periodic and other symmetric sequences. It includes complex, real, sine, cosine, and quarter-wave transforms."
 homepage    = "http://www.netlib.org/fftpack/"
-version     = "1.0.0"
+version     = "4.0.0"
 license     = "Public Domain"
 author      = "Paul N. Swarztrauber"
 maintainer  = "@fortran-lang"

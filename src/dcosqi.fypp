@@ -1,0 +1,19 @@
+#:include "common.fypp"
+
+#:for k1,t1 in REAL_KINDS_TYPES
+    subroutine dcosqi_${k1}$ (n, wsave)
+        use fftpack_kinds, only: ${k1}$
+        implicit ${t1}$ (a - h, o - z)
+        dimension wsave(*)
+        data pih/1.57079632679489661923d0/
+        dt = pih/float(n)
+        fk = 0.0d0
+        do k = 1, n
+            fk = fk + 1.0d0
+            wsave(k) = cos(fk*dt)
+        end do
+        call dffti_${k1}$ (n, wsave(n + 1))
+        return
+    end subroutine
+
+#:endfor

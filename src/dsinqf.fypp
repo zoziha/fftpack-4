@@ -1,0 +1,23 @@
+#:include "common.fypp"
+
+#:for k1,t1 in REAL_KINDS_TYPES
+    subroutine dsinqf_${k1}$ (n, x, wsave)
+        use fftpack_kinds, only: ${k1}$
+        implicit ${t1}$ (a - h, o - z)
+        dimension x(*), wsave(*)
+        if (n .eq. 1) return
+        ns2 = n/2
+        do k = 1, ns2
+            kc = n - k
+            xhold = x(k)
+            x(k) = x(kc + 1)
+            x(kc + 1) = xhold
+        end do
+        call dcosqf_${k1}$ (n, x, wsave)
+        do k = 2, n, 2
+            x(k) = -x(k)
+        end do
+        return
+    end subroutine
+
+#:endfor

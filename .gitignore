@@ -1,9 +1,10 @@
 build*
-doc*
+API-doc/*
 src/*.o
 src/*.mod
 src/*.a
 src/*.exe
 src/*.out
-test/test.o
-test/test.exe
+test/*.o
+test/check*
+test/*.exe

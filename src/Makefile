@@ -1,96 +1,233 @@
-# Several changes made by HCP so this would build without trouble 
-# on a Linux/g77 system.
-# (1) changed step to build library to use ar instead of update
-#     (update must mean something different on someone elses Unix.)
-# (2) Added make clean step 
-# (3) In test step, changed a.out to ./a.out for cautious folk who don't 
-#     have "." in their PATH.
-# (4) Change FFLAGS from -O to -O2 -funroll-loops
-# (5) Specify FC=gcc in case /usr/bin/f77 is not a link to g77 
-#     (as it won't be if you have f77reorder installed)
-# (6) Added targets shared and installshared to make and install a shared 
-#     version of the library. You need /usr/local/lib in /etc/ld.so.conf 
-#     for this to work   
-# (7) Modified names for dble prec version
-LIB=dfftpack
+SRCFYPP =\
+	cfftb1.fypp \
+	cfftf1.fypp \
+	cffti1.fypp \
+	cosqb1.fypp \
+	cosqf1.fypp \
+	dcosqb.fypp \
+	dcosqf.fypp \
+	dcosqi.fypp \
+	dcost.fypp \
+	dcosti.fypp \
+	dfftb.fypp \
+	dfftf.fypp \
+	dffti.fypp \
+	dsinqf.fypp \
+	dsinqb.fypp \
+	dsinqi.fypp \
+	dsint.fypp \
+	dsinti.fypp \
+	dzfftb.fypp \
+	dzfftf.fypp \
+	dzffti.fypp \
+	ezfft1.fypp \
+	fftpack_api.fypp \
+	passb.fypp \
+	passb2.fypp \
+	passb3.fypp \
+	passb4.fypp \
+	passb5.fypp \
+	passf.fypp \
+	passf2.fypp\
+	passf3.fypp \
+	passf4.fypp \
+	passf5.fypp \
+	radb2.fypp \
+	radb3.fypp \
+	radb4.fypp \
+	radb5.fypp \
+	radbg.fypp \
+	radf2.fypp \
+	radf3.fypp \
+	radf4.fypp \
+	radf5.fypp \
+	radfg.fypp \
+	rfftb1.fypp \
+	rfftf1.fypp \
+	rffti1.fypp \
+	sint1.fypp \
+	zfftb.fypp \
+	zfftf.fypp \
+	zffti.fypp
 
-# Use these lines for Linux/g77
-FC=gfortran
-FFLAGS=-O2 -funroll-loops -fexpensive-optimizations
+SRC = fftpack_kinds.f90 \
+      $(SRCGEN)
 
-# Use these lines for Solaris
-#FC=f77
-#FFLAGS=-fast -O5
+LIB = libfftpack4.a
 
-OBJ=\
-zfftb.o\
-cfftb1.o\
-zfftf.o\
-cfftf1.o\
-zffti.o\
-cffti1.o\
-dcosqb.o\
-cosqb1.o\
-dcosqf.o\
-cosqf1.o\
-dcosqi.o\
-dcost.o\
-dcosti.o\
-ezfft1.o\
-dzfftb.o\
-dzfftf.o\
-dzffti.o\
-passb.o\
-passb2.o\
-passb3.o\
-passb4.o\
-passb5.o\
-passf.o\
-passf2.o\
-passf3.o\
-passf4.o\
-passf5.o\
-radb2.o\
-radb3.o\
-radb4.o\
-radb5.o\
-radbg.o\
-radf2.o\
-radf3.o\
-radf4.o\
-radf5.o\
-radfg.o\
-dfftb.o\
-rfftb1.o\
-dfftf.o\
-rfftf1.o\
-dffti.o\
-rffti1.o\
-dsinqb.o\
-dsinqf.o\
-dsinqi.o\
-dsint.o\
-sint1.o\
-dsinti.o
 
-lib$(LIB).a:	$(OBJ)
-	ar -rcs lib$(LIB).a $(OBJ)
+SRCGEN = $(SRCFYPP:.fypp=.f90)
+OBJS = $(SRC:.f90=.o)
+MODS = $(OBJS:.o=.mod)
+SMODS = $(OBJS:.o=*.smod)
 
-shared:$(OBJ)
-	$(FC)  -shared -o lib$(LIB).so $(OBJ)
+.PHONY: all clean
 
-install:	lib$(LIB).a
-	mv lib$(LIB).a /usr/local/lib
-	rm *.o
+all: $(LIB)
 
-installshared:lib$(LIB).so
-	mv lib$(LIB).so /usr/local/lib
-	rm *.o
-	ldconfig 
+$(LIB): $(OBJS)
+	ar rcs $@ $(OBJS)
 
-test: test.o
-	$(FC) test.o -L./ -l$(LIB)
-	time ./a.out
+clean:
+	$(RM) $(LIB) $(OBJS) $(MODS) $(SMODS) $(SRCGEN)
 
-clean: 
-	 rm -f -r *.o *.a *.so
+%.o: %.f90
+	$(FC) $(FFLAGS) -c $<
+
+$(SRCGEN): %.f90: %.fypp common.fypp
+	fypp $(FYPPFLAGS) $< $@
+
+# Fortran module dependencies
+cfftb1.o: \
+	fftpack_kinds.o\
+	passb2.o \
+	passb3.o \
+	passb4.o \
+	passb5.o
+cfftf1.o: \
+	fftpack_kinds.o
+cffti1.o: \
+	fftpack_kinds.o
+cosqb1.o: \
+	fftpack_kinds.o
+cosqf1.o: \
+	fftpack_kinds.o
+dcosqb.o: \
+	fftpack_kinds.o
+dcosqf.o: \
+	fftpack_kinds.o
+dcosqi.o: \
+	fftpack_kinds.o
+dcost.o: \
+	fftpack_kinds.o
+dcosti.o: \
+	fftpack_kinds.o
+dfftb.o: \
+	fftpack_kinds.o
+dfftf.o: \
+	fftpack_kinds.o
+dffti.o: \
+	fftpack_kinds.o
+dsinqb.o: \
+	fftpack_kinds.o
+dsinqf.o: \
+	fftpack_kinds.o
+dsinqi.o: \
+	fftpack_kinds.o
+dsint.o: \
+	fftpack_kinds.o
+dsinti.o: \
+	fftpack_kinds.o
+dzfftb.o: \
+	fftpack_kinds.o
+dzfftf.o: \
+	fftpack_kinds.o
+dzffti.o: \
+	fftpack_kinds.o
+ezfft1.o: \
+	fftpack_kinds.o
+passb.o: \
+	fftpack_kinds.o
+passb2.o: \
+	fftpack_kinds.o
+passb3.o: \
+	fftpack_kinds.o
+passb4.o: \
+	fftpack_kinds.o
+passb5.o: \
+	fftpack_kinds.o
+passf.o: \
+	fftpack_kinds.o
+passf2.o: \
+	fftpack_kinds.o
+passf3.o: \
+	fftpack_kinds.o
+passf4.o: \
+	fftpack_kinds.o
+passf5.o: \
+	fftpack_kinds.o
+radb2.o: \
+	fftpack_kinds.o
+radb3.o: \
+	fftpack_kinds.o
+radb4.o: \
+	fftpack_kinds.o
+radb5.o: \
+	fftpack_kinds.o
+radbg.o: \
+	fftpack_kinds.o
+radf2.o: \
+	fftpack_kinds.o
+radf3.o: \
+	fftpack_kinds.o
+radf4.o: \
+	fftpack_kinds.o
+radf5.o: \
+	fftpack_kinds.o
+radfg.o: \
+	fftpack_kinds.o
+rfftb1.o: \
+	fftpack_kinds.o
+rfftf1.o: \
+	fftpack_kinds.o
+rffti1.o: \
+	fftpack_kinds.o
+sint1.o: \
+	fftpack_kinds.o
+zfftb.o: \
+	fftpack_kinds.o
+zfftf.o: \
+	fftpack_kinds.o
+zffti.o: \
+	fftpack_kinds.o
+fftpack_api.o: \
+	cfftb1.o \
+	cfftf1.o \
+	cffti1.o \
+	cosqb1.o \
+	cosqf1.o \
+	dcosqb.o \
+	dcosqf.o \
+	dcosqi.o \
+	dcost.o \
+	dcosti.o \
+	dfftb.o \
+	dfftf.o \
+	dffti.o \
+	dsinqf.o \
+	dsinqb.o \
+	dsinqi.o \
+	dsint.o \
+	dsinti.o \
+	dzfftb.o \
+	dzfftf.o \
+	dzffti.o \
+	ezfft1.o \
+	fftpack_kinds.o \
+	passb.o \
+	passb2.o \
+	passb3.o \
+	passb4.o \
+	passb5.o \
+	passf.o \
+	passf2.o\
+	passf3.o \
+	passf4.o \
+	passf5.o \
+	radb2.o \
+	radb3.o \
+	radb4.o \
+	radb5.o \
+	radbg.o \
+	radf2.o \
+	radf3.o \
+	radf4.o \
+	radf5.o \
+	radfg.o \
+	rfftb1.o \
+	rfftf1.o \
+	rffti1.o \
+	sint1.o \
+	zfftb.o \
+	zfftf.o \
+	zffti.o

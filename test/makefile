@@ -3,10 +3,10 @@ FFLAGS =
 LIB_DIR = \
 -L../src/
 
-LIBS = -ldfftpack
+LIBS = -lfftpack4
 
 test: test.o
-	$(FC) -o test test.o $(LIB_DIR) $(LIBS)
+	$(FC) -o test test.o $(LIB_DIR) $(LIBS) -I../src/
 
-test.o: test.f
-	$(FC) -c test.f $(LIB_DIR) $(LIBS)
+test.o: test.f90
+	$(FC) -c test.f90 $(LIB_DIR) $(LIBS) -I../src/

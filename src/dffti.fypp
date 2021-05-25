@@ -1,0 +1,13 @@
+#:include "common.fypp"
+
+#:for k1,t1 in REAL_KINDS_TYPES
+    subroutine dffti_${k1}$ (n, wsave)
+        use fftpack_kinds, only: ${k1}$
+        implicit ${t1}$ (a - h, o - z)
+        dimension wsave(*)
+        if (n .eq. 1) return
+        call rffti1_${k1}$ (n, wsave(n + 1), wsave(2*n + 1))
+        return
+    end subroutine
+
+#:endfor

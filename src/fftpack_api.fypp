@@ -1,0 +1,585 @@
+#:include "common.fypp"
+
+module fftpack_api
+    use fftpack_kinds, only: sp, dp, qp
+    implicit none
+    ! private
+    ! public :: cfftb1
+
+    interface cfftb1
+        #:for k1, t1 in REAL_KINDS_TYPES
+            subroutine cfftb1_${k1}$ (n, c, ch, wa, ifac)
+                import ${k1}$
+                implicit ${t1}$ (a - h, o - z)
+                dimension ch(*), c(*), wa(*), ifac(*)
+            end subroutine
+        #:endfor
+    end interface cfftb1
+
+    interface cfftf1
+        #:for k1, t1 in REAL_KINDS_TYPES
+            subroutine cfftf1_${k1}$ (n, c, ch, wa, ifac)
+                import ${k1}$
+                implicit ${t1}$ (a - h, o - z)
+                dimension ch(*), c(*), wa(*), ifac(*)
+            end subroutine
+        #:endfor
+    end interface cfftf1
+
+    interface cffti1
+        #:for k1, t1 in REAL_KINDS_TYPES
+            subroutine cffti1_${k1}$ (n, wa, ifac)
+                import ${k1}$
+                implicit ${t1}$ (a - h, o - z)
+                dimension wa(*), ifac(*)
+            end subroutine
+        #:endfor
+    end interface cffti1
+
+    interface cosqb1
+        #:for k1, t1 in REAL_KINDS_TYPES
+            subroutine cosqb1_${k1}$ (n, x, w, xh)
+                import ${k1}$
+                implicit ${t1}$ (a - h, o - z)
+                dimension x(1), w(1), xh(1)
+            end subroutine
+        #:endfor
+    end interface cosqb1
+
+    interface cosqf1
+        #:for k1, t1 in REAL_KINDS_TYPES
+            subroutine cosqf1_${k1}$ (n, x, w, xh)
+                import ${k1}$
+                implicit ${t1}$ (a - h, o - z)
+                dimension x(1), w(1), xh(1)
+            end subroutine
+        #:endfor
+    end interface cosqf1
+
+    interface dcosqb
+        #:for k1, t1 in REAL_KINDS_TYPES
+            subroutine dcosqb_${k1}$ (n, x, wsave)
+                import ${k1}$
+                implicit ${t1}$ (a - h, o - z)
+                dimension x(*), wsave(*)
+            end subroutine
+        #:endfor
+    end interface dcosqb
+
+    interface dcosqf
+        #:for k1, t1 in REAL_KINDS_TYPES
+            subroutine dcosqf_${k1}$ (n, x, wsave)
+                import ${k1}$
+                implicit ${t1}$ (a - h, o - z)
+                dimension x(*), wsave(*)
+            end subroutine
+        #:endfor
+    end interface dcosqf
+
+    interface dcosqi
+        #:for k1, t1 in REAL_KINDS_TYPES
+            subroutine dcosqi_${k1}$ (n, wsave)
+                import ${k1}$
+                implicit ${t1}$ (a - h, o - z)
+                dimension wsave(1)
+            end subroutine
+        #:endfor
+    end interface dcosqi
+
+    interface dcost
+        #:for k1, t1 in REAL_KINDS_TYPES
+            subroutine dcost_${k1}$ (n, x, wsave)
+                import ${k1}$
+                implicit ${t1}$ (a - h, o - z)
+                dimension x(*), wsave(*)
+            end subroutine
+        #:endfor
+    end interface dcost
+
+    interface dcosti
+        #:for k1, t1 in REAL_KINDS_TYPES
+            subroutine dcosti_${k1}$ (n, wsave)
+                import ${k1}$
+                implicit ${t1}$ (a - h, o - z)
+                dimension wsave(1)
+            end subroutine
+        #:endfor
+    end interface dcosti
+
+    interface dfftb
+        #:for k1, t1 in REAL_KINDS_TYPES
+            subroutine dfftb_${k1}$ (n, r, wsave)
+                import ${k1}$
+                implicit ${t1}$ (a - h, o - z)
+                dimension r(1), wsave(1)
+            end subroutine
+        #:endfor
+    end interface dfftb
+
+    interface dfftf
+        #:for k1, t1 in REAL_KINDS_TYPES
+            subroutine dfftf_${k1}$ (n, r, wsave)
+                import ${k1}$
+                implicit ${t1}$ (a - h, o - z)
+                dimension r(1), wsave(1)
+            end subroutine
+        #:endfor
+    end interface dfftf
+
+    interface dffti
+        #:for k1, t1 in REAL_KINDS_TYPES
+            subroutine dffti_${k1}$ (n, wsave)
+                import ${k1}$
+                implicit ${t1}$ (a - h, o - z)
+                dimension wsave(1)
+            end subroutine
+        #:endfor
+    end interface dffti
+
+    interface dsinqb
+        #:for k1, t1 in REAL_KINDS_TYPES
+            subroutine dsinqb_${k1}$ (n, x, wsave)
+                import ${k1}$
+                implicit ${t1}$ (a - h, o - z)
+                dimension x(1), wsave(1)
+            end subroutine
+        #:endfor
+    end interface dsinqb
+
+    interface dsinqf
+        #:for k1, t1 in REAL_KINDS_TYPES
+            subroutine dsinqf_${k1}$ (n, x, wsave)
+                import ${k1}$
+                implicit ${t1}$ (a - h, o - z)
+                dimension x(1), wsave(1)
+            end subroutine
+        #:endfor
+    end interface dsinqf
+
+    interface dsinqi
+        #:for k1, t1 in REAL_KINDS_TYPES
+            subroutine dsinqi_${k1}$ (n, wsave)
+                import ${k1}$
+                implicit ${t1}$ (a - h, o - z)
+                dimension wsave(1)
+            end subroutine
+        #:endfor
+    end interface dsinqi
+
+    interface dsint
+        #:for k1, t1 in REAL_KINDS_TYPES
+            subroutine dsint_${k1}$ (n, x, wsave)
+                import ${k1}$
+                implicit ${t1}$ (a - h, o - z)
+                dimension x(1), wsave(1)
+            end subroutine
+        #:endfor
+    end interface dsint
+
+    interface dsinti
+        #:for k1, t1 in REAL_KINDS_TYPES
+            subroutine dsinti_${k1}$ (n, wsave)
+                import ${k1}$
+                implicit ${t1}$ (a - h, o - z)
+                dimension wsave(1)
+            end subroutine
+        #:endfor
+    end interface dsinti
+
+    interface dzfftb
+        #:for k1, t1 in REAL_KINDS_TYPES
+            subroutine dzfftb_${k1}$ (n, r, azero, a, b, wsave)
+                import ${k1}$
+                implicit ${t1}$ (a - h, o - z)
+                dimension r(*), a(*), b(*), wsave(*)
+            end subroutine
+        #:endfor
+    end interface dzfftb
+
+    interface dzfftf
+        #:for k1, t1 in REAL_KINDS_TYPES
+            subroutine dzfftf_${k1}$ (n, r, azero, a, b, wsave)
+                import ${k1}$
+                implicit ${t1}$ (a - h, o - z)
+                dimension r(*), a(*), b(*), wsave(*)
+            end subroutine
+        #:endfor
+    end interface dzfftf
+
+    interface dzffti
+        #:for k1, t1 in REAL_KINDS_TYPES
+            subroutine dzffti_${k1}$ (n, wsave)
+                import ${k1}$
+                implicit ${t1}$ (a - h, o - z)
+                dimension wsave(1)
+            end subroutine
+        #:endfor
+    end interface dzffti
+
+    interface ezfft1
+        #:for k1, t1 in REAL_KINDS_TYPES
+            subroutine ezfft1_${k1}$ (n, wa, ifac)
+                import ${k1}$
+                implicit ${t1}$ (a - h, o - z)
+                dimension wa(*), ifac(*), ntryh(4)
+            end subroutine
+        #:endfor
+    end interface ezfft1
+
+    interface passb
+        #:for k1, t1 in REAL_KINDS_TYPES
+            subroutine passb_${k1}$ (nac, ido, ip, l1, idl1, cc, c1, c2, ch, ch2, wa)
+                import ${k1}$
+                implicit ${t1}$ (a - h, o - z)
+                dimension ch(ido, l1, ip), cc(ido, ip, l1), &
+                    c1(ido, l1, ip), wa(1), c2(idl1, ip), &
+                    ch2(idl1, ip)
+            end subroutine
+        #:endfor
+    end interface passb
+
+    interface passb2
+        #:for k1, t1 in REAL_KINDS_TYPES
+            subroutine passb2_${k1}$ (ido, l1, cc, ch, wa1)
+                import ${k1}$
+                implicit ${t1}$ (a - h, o - z)
+                dimension cc(ido, 2, l1), ch(ido, l1, 2), &
+                    wa1(1)
+            end subroutine
+        #:endfor
+    end interface passb2
+
+    interface passb3
+        #:for k1, t1 in REAL_KINDS_TYPES
+            subroutine passb3_${k1}$ (ido, l1, cc, ch, wa1, wa2)
+                import ${k1}$
+                implicit ${t1}$ (a - h, o - z)
+                dimension cc(ido, 3, l1), ch(ido, l1, 3), &
+                    wa1(1), wa2(1)
+            end subroutine
+        #:endfor
+    end interface passb3
+
+    interface passb4
+        #:for k1, t1 in REAL_KINDS_TYPES
+            subroutine passb4_${k1}$ (ido, l1, cc, ch, wa1, wa2, wa3)
+                import ${k1}$
+                implicit ${t1}$ (a - h, o - z)
+                dimension cc(ido, 4, l1), ch(ido, l1, 4), &
+                    wa1(1), wa2(1), wa3(1)
+            end subroutine
+        #:endfor
+    end interface passb4
+
+    interface passb5
+        #:for k1, t1 in REAL_KINDS_TYPES
+            subroutine passb5_${k1}$ (ido, l1, cc, ch, wa1, wa2, wa3, wa4)
+                import ${k1}$
+                implicit ${t1}$ (a - h, o - z)
+                dimension cc(ido, 5, l1), ch(ido, l1, 5), &
+                    wa1(1), wa2(1), wa3(1), wa4(1)
+            end subroutine
+        #:endfor
+    end interface passb5
+
+    interface passf
+        #:for k1, t1 in REAL_KINDS_TYPES
+            subroutine passf_${k1}$ (nac, ido, ip, l1, idl1, cc, c1, c2, ch, ch2, wa)
+                import ${k1}$
+                implicit ${t1}$ (a - h, o - z)
+                dimension ch(ido, l1, ip), cc(ido, ip, l1), &
+                    c1(ido, l1, ip), wa(1), c2(idl1, ip), &
+                    ch2(idl1, ip)
+            end subroutine
+        #:endfor
+    end interface passf
+
+    interface passf2
+        #:for k1, t1 in REAL_KINDS_TYPES
+            subroutine passf2_${k1}$ (ido, l1, cc, ch, wa1)
+                import ${k1}$
+                implicit ${t1}$ (a - h, o - z)
+                dimension cc(ido, 2, l1), ch(ido, l1, 2), &
+                    wa1(1)
+            end subroutine
+        #:endfor
+    end interface passf2
+
+    interface passf3
+        #:for k1, t1 in REAL_KINDS_TYPES
+            subroutine passf3_${k1}$ (ido, l1, cc, ch, wa1, wa2)
+                import ${k1}$
+                implicit ${t1}$ (a - h, o - z)
+                dimension cc(ido, 3, l1), ch(ido, l1, 3), &
+                    wa1(1), wa2(1)
+            end subroutine
+        #:endfor
+    end interface passf3
+
+    interface passf4
+        #:for k1, t1 in REAL_KINDS_TYPES
+            subroutine passf4_${k1}$ (ido, l1, cc, ch, wa1, wa2, wa3)
+                import ${k1}$
+                implicit ${t1}$ (a - h, o - z)
+                dimension cc(ido, 4, l1), ch(ido, l1, 4), &
+                    wa1(1), wa2(1), wa3(1)
+            end subroutine
+        #:endfor
+    end interface passf4
+
+    interface passf5
+        #:for k1, t1 in REAL_KINDS_TYPES
+            subroutine passf5_${k1}$ (ido, l1, cc, ch, wa1, wa2, wa3, wa4)
+                import ${k1}$
+                implicit ${t1}$ (a - h, o - z)
+                dimension cc(ido, 5, l1), ch(ido, l1, 5), &
+                    wa1(1), wa2(1), wa3(1), wa4(1)
+            end subroutine
+        #:endfor
+    end interface passf5
+
+    ! interface radb2
+    !     #:for k1, t1 in REAL_KINDS_TYPES
+    !         subroutine radb2_${k1}$ (n, wsave)
+    !             import ${k1}$
+    !             implicit ${t1}$ (a - h, o - z)
+    !             dimension wsave(*)
+    !         end subroutine
+    !     #:endfor
+    ! end interface radb2
+
+    ! interface radb3
+    !     #:for k1, t1 in REAL_KINDS_TYPES
+    !         subroutine radb3_${k1}$ (n, wsave)
+    !             import ${k1}$
+    !             implicit ${t1}$ (a - h, o - z)
+    !             dimension wsave(*)
+    !         end subroutine
+    !     #:endfor
+    ! end interface radb3
+
+    ! interface radb4
+    !     #:for k1, t1 in REAL_KINDS_TYPES
+    !         subroutine radb4_${k1}$ (n, wsave)
+    !             import ${k1}$
+    !             implicit ${t1}$ (a - h, o - z)
+    !             dimension wsave(*)
+    !         end subroutine
+    !     #:endfor
+    ! end interface radb4
+
+    ! interface radb5
+    !     #:for k1, t1 in REAL_KINDS_TYPES
+    !         subroutine radb5_${k1}$ (n, wsave)
+    !             import ${k1}$
+    !             implicit ${t1}$ (a - h, o - z)
+    !             dimension wsave(*)
+    !         end subroutine
+    !     #:endfor
+    ! end interface radb5
+
+    ! interface radbg
+    !     #:for k1, t1 in REAL_KINDS_TYPES
+    !         subroutine radbg_${k1}$ (n, wsave)
+    !             import ${k1}$
+    !             implicit ${t1}$ (a - h, o - z)
+    !             dimension wsave(*)
+    !         end subroutine
+    !     #:endfor
+    ! end interface radbg
+
+    interface radb2
+        #:for k1, t1 in REAL_KINDS_TYPES
+            subroutine radb2_${k1}$ (ido, l1, cc, ch, wa1)
+                import ${k1}$
+                implicit ${t1}$ (a - h, o - z)
+                dimension cc(ido, 2, l1), ch(ido, l1, 2), &
+                    wa1(1)
+            end subroutine
+        #:endfor
+    end interface radb2
+
+    interface radb3
+        #:for k1, t1 in REAL_KINDS_TYPES
+            subroutine radb3_${k1}$ (ido, l1, cc, ch, wa1, wa2)
+                import ${k1}$
+                implicit ${t1}$ (a - h, o - z)
+                dimension cc(ido, 3, l1), ch(ido, l1, 3), &
+                    wa1(1), wa2(1)
+            end subroutine
+        #:endfor
+    end interface radb3
+
+    interface radb4
+        #:for k1, t1 in REAL_KINDS_TYPES
+            subroutine radb4_${k1}$ (ido, l1, cc, ch, wa1, wa2, wa3)
+                import ${k1}$
+                implicit ${t1}$ (a - h, o - z)
+                dimension cc(ido, 4, l1), ch(ido, l1, 4), &
+                    wa1(1), wa2(1), wa3(1)
+            end subroutine
+        #:endfor
+    end interface radb4
+
+    interface radb5
+        #:for k1, t1 in REAL_KINDS_TYPES
+            subroutine radb5_${k1}$ (ido, l1, cc, ch, wa1, wa2, wa3, wa4)
+                import ${k1}$
+                implicit ${t1}$ (a - h, o - z)
+                dimension cc(ido, 5, l1), ch(ido, l1, 5), &
+                    wa1(1), wa2(1), wa3(1), wa4(1)
+            end subroutine
+        #:endfor
+    end interface radb5
+
+    interface radbg
+        #:for k1, t1 in REAL_KINDS_TYPES
+            subroutine radbg_${k1}$ (ido, ip, l1, idl1, cc, c1, c2, ch, ch2, wa)
+                import ${k1}$
+                implicit ${t1}$ (a - h, o - z)
+                dimension ch(ido, l1, ip), cc(ido, ip, l1), &
+                    c1(ido, l1, ip), c2(idl1, ip), &
+                    ch2(idl1, ip), wa(1)
+            end subroutine
+        #:endfor
+    end interface radbg
+
+    interface radf2
+        #:for k1, t1 in REAL_KINDS_TYPES
+            subroutine radf2_${k1}$ (ido, l1, cc, ch, wa1)
+                import ${k1}$
+                implicit ${t1}$ (a - h, o - z)
+                dimension ch(ido, 2, l1), cc(ido, l1, 2), &
+                    wa1(1)
+            end subroutine
+        #:endfor
+    end interface radf2
+
+    interface radf3
+        #:for k1, t1 in REAL_KINDS_TYPES
+            subroutine radf3_${k1}$ (ido, l1, cc, ch, wa1, wa2)
+                import ${k1}$
+                implicit ${t1}$ (a - h, o - z)
+                dimension ch(ido, 3, l1), cc(ido, l1, 3), &
+                    wa1(1), wa2(1)
+            end subroutine
+        #:endfor
+    end interface radf3
+
+    interface radf4
+        #:for k1, t1 in REAL_KINDS_TYPES
+            subroutine radf4_${k1}$ (ido, l1, cc, ch, wa1, wa2, wa3)
+                import ${k1}$
+                implicit ${t1}$ (a - h, o - z)
+                dimension cc(ido, l1, 4), ch(ido, 4, l1), &
+                    wa1(1), wa2(1), wa3(1)
+            end subroutine
+        #:endfor
+    end interface radf4
+
+    interface radf5
+        #:for k1, t1 in REAL_KINDS_TYPES
+            subroutine radf5_${k1}$ (ido, l1, cc, ch, wa1, wa2, wa3, wa4)
+                import ${k1}$
+                implicit ${t1}$ (a - h, o - z)
+                dimension cc(ido, l1, 5), ch(ido, 5, l1), &
+                    wa1(1), wa2(1), wa3(1), wa4(1)
+            end subroutine
+        #:endfor
+    end interface radf5
+
+    interface radfg
+        #:for k1, t1 in REAL_KINDS_TYPES
+            subroutine radfg_${k1}$ (ido, ip, l1, idl1, cc, c1, c2, ch, ch2, wa)
+                import ${k1}$
+                implicit ${t1}$ (a - h, o - z)
+                dimension ch(ido, l1, ip), cc(ido, ip, l1), &
+                    c1(ido, l1, ip), c2(idl1, ip), &
+                    ch2(idl1, ip), wa(*)
+            end subroutine
+        #:endfor
+    end interface radfg
+
+    interface rfftb1
+        #:for k1, t1 in REAL_KINDS_TYPES
+            subroutine rfftb1_${k1}$ (n, c, ch, wa, ifac)
+                import ${k1}$
+                implicit ${t1}$ (a - h, o - z)
+                dimension ch(*), c(*), wa(*), ifac(*)
+            end subroutine
+        #:endfor
+    end interface rfftb1
+
+    interface rfftf1
+        #:for k1, t1 in REAL_KINDS_TYPES
+            subroutine rfftf1_${k1}$ (n, c, ch, wa, ifac)
+                import ${k1}$
+                implicit ${t1}$ (a - h, o - z)
+                dimension ch(*), c(*), wa(*), ifac(*)
+            end subroutine
+        #:endfor
+    end interface rfftf1
+
+    interface rffti1
+        #:for k1, t1 in REAL_KINDS_TYPES
+            subroutine rffti1_${k1}$ (n, wa, ifac)
+                import ${k1}$
+                implicit ${t1}$ (a - h, o - z)
+                dimension wa(*), ifac(*)
+            end subroutine
+        #:endfor
+    end interface rffti1
+
+    interface sint1
+        #:for k1, t1 in REAL_KINDS_TYPES
+            subroutine sint1_${k1}$ (n, war, was, xh, x, ifac)
+                import ${k1}$
+                implicit ${t1}$ (a - h, o - z)
+                dimension war(*), was(*), x(*), xh(*), ifac(*)
+            end subroutine
+        #:endfor
+    end interface sint1
+
+    interface zfftb
+        !! version: experimental
+        !!
+        !! unnormalized inverse of zfftf
+        #:for k1, t1 in REAL_KINDS_TYPES
+            subroutine zfftb_${k1}$ (n, c, wsave)
+                import ${k1}$
+                implicit ${t1}$ (a - h, o - z)
+                dimension c(*), wsave(*)
+                complex(${k1}$) c
+            end subroutine
+        #:endfor
+    end interface zfftb
+
+    interface zfftf
+        !! version: experimental
+        !!
+        !! forward transform of a complex periodic sequence
+        #:for k1, t1 in REAL_KINDS_TYPES
+            subroutine zfftf_${k1}$ (n, c, wsave)
+                import ${k1}$
+                implicit ${t1}$ (a - h, o - z)
+                dimension c(*), wsave(*)
+                complex(${k1}$) c
+            end subroutine
+        #:endfor
+    end interface zfftf
+
+    interface zffti
+        !! version: experimental
+        !!
+        !! initialize  zfftf and zfftb
+        #:for k1, t1 in REAL_KINDS_TYPES
+            subroutine zffti_${k1}$ (n, wsave)
+                import ${k1}$
+                implicit ${t1}$ (a - h, o - z)
+                dimension wsave(*)
+            end subroutine
+        #:endfor
+    end interface zffti
+contains
+
+end module

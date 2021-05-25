@@ -1,0 +1,16 @@
+#:include "common.fypp"
+
+#:for k1,t1 in REAL_KINDS_TYPES
+    subroutine dsint_${k1}$ (n, x, wsave)
+        use fftpack_kinds, only: ${k1}$
+        implicit ${t1}$ (a - h, o - z)
+        dimension x(*), wsave(*)
+        np1 = n + 1
+        iw1 = n/2 + 1
+        iw2 = iw1 + np1
+        iw3 = iw2 + np1
+        call sint1_${k1}$ (n, x, wsave, wsave(iw1), wsave(iw2), wsave(iw3))
+        return
+    end subroutine
+
+#:endfor

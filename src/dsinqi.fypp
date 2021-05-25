@@ -1,0 +1,12 @@
+#:include "common.fypp"
+
+#:for k1,t1 in REAL_KINDS_TYPES
+    subroutine dsinqi_${k1}$ (n, wsave)
+        use fftpack_kinds, only: ${k1}$
+        implicit ${t1}$ (a - h, o - z)
+        dimension wsave(*)
+        call dcosqi_${k1}$ (n, wsave)
+        return
+    end subroutine
+
+#:endfor

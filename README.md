@@ -9,10 +9,10 @@ cd fftpack
 ```
 
 ### Supported Compilers
-The following combinations are tested on the default branch of stdlib:
-|Name|Vesrion|Platform|Architecture|
-|---|---|---|---|
-|GCC Fortran(MSYS2)|10|Windows 10|x86_64|
+The following combinations are tested on the default branch of stdlib:  
+|Name|Vesrion|Platform|Architecture|  
+|---|---|---|---|  
+|GCC Fortran(MSYS2)|10|Windows 10|x86_64|  
 
 ### Build with Make
 You can build using provided Makefiles:

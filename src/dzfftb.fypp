@@ -1,0 +1,25 @@
+#:include "common.fypp"
+
+#:for k1,t1 in REAL_KINDS_TYPES
+    subroutine dzfftb_${k1}$ (n, r, azero, a, b, wsave)
+        use fftpack_kinds, only: ${k1}$
+        implicit ${t1}$ (a - h, o - z)
+        dimension r(*), a(*), b(*), wsave(*)
+        if (n - 2) 101, 102, 103
+101     r(1) = azero
+        return
+102     r(1) = azero + a(1)
+        r(2) = azero - a(1)
+        return
+103     ns2 = (n - 1)/2
+        do i = 1, ns2
+            r(2*i) = 0.5d0*a(i)
+            r(2*i + 1) = -0.5d0*b(i)
+        end do
+        r(1) = azero
+        if (mod(n, 2) .eq. 0) r(n) = a(ns2 + 1)
+        call dfftb_${k1}$ (n, r, wsave(n + 1))
+        return
+    end subroutine
+
+#:endfor
